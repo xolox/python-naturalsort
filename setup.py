@@ -9,7 +9,7 @@ readme_file = join(dirname(abspath(__file__)), 'README.rst')
 readme_text = open(readme_file, 'r').read()
 
 setup(name='naturalsort',
-      version='1.0',
+      version='1.0.1',
       description="Simple natural order sorting API for Python that just works",
       long_description=readme_text,
       url='https://pypi.python.org/pypi/naturalsort',
