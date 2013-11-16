@@ -17,11 +17,6 @@ is very simple::
     'my-package-2.0-r7',
     'my-package-2.0-r11']
 
-The main use case that this package was originally created for is sorting of
-pathnames with versions numbers embedded in them. This is why the sorting key
-defined by the ``naturalsort`` package ignores filename extensions (not doing
-so can give unexpected results).
-
 Usage
 -----
 

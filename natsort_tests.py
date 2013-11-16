@@ -3,7 +3,7 @@
 # Tests for natural order sorting module.
 #
 # Author: Peter Odding <peter.odding@paylogic.eu>
-# Last Change: July 6, 2013
+# Last Change: November 16, 2013
 # URL: https://pypi.python.org/pypi/naturalsort
 
 # Standard library modules.
@@ -24,7 +24,3 @@ class NaturalSortTestCase(unittest.TestCase):
 
       # This covers a previously fixed bug.
       assert natsort(['1.0', '1.5']) == ['1.0', '1.5']
-
-      # Test that filename extensions are ignored during sorting.
-      filenames = ['some-package-1.0.deb', 'some-package-1.0-r1.deb']
-      assert natsort(filenames) == filenames
