@@ -1,10 +1,10 @@
-Simple natural order sorting API for Python that just works
-===========================================================
+Simple natural order sorting API for Python
+===========================================
 
 The ``natsort.natsort()`` function in the ``naturalsort`` package is a very
 simple alternative to Python's ``sorted()`` function that implements `natural
-order sorting`_ in Python. The package is available on PyPI, so getting started
-is very simple::
+order sorting`_ in Python. The package is available on PyPI_, so getting
+started is very simple::
 
    $ pip install naturalsort
    $ python
@@ -34,59 +34,70 @@ characters) compared to `natural order sorting`_::
    > natsort(['1', '5', '10', '50'])
    ['1', '5', '10', '50']
 
+Custom comparison keys
+^^^^^^^^^^^^^^^^^^^^^^
+
+The main use case that the naturalsort_ package was originally created for is
+sorting of filenames with versions numbers embedded in them. Unfortunately this
+won't always work out of the box; you may need to define a custom comparison
+key. Here's an example where a custom comparison key is required to get the
+proper results::
+
+   > from natsort import natsort
+   > from pprint import pprint
+   > versions = ['package-name_1_all.deb',
+   ...           'package-name_1.5_all.deb',
+   ...           'package-name_2_all.deb']
+
+This is what happens by default::
+
+   > pprint(natsort(versions))
+   ['package-name_1.5_all.deb',
+    'package-name_1_all.deb',
+    'package-name_2_all.deb']
+
+Here's how to get the right results::
+
+   > from os.path import basename, splitext
+   > def version_from_fname(filename):
+   ...   filename, extension = splitext(basename(filename))
+   ..    name, version, architecture = filename.split('_')
+   ...   return version
+   ...
+   > pprint(natsort(versions, key=version_from_fname))
+   ['package-name_1_all.deb',
+    'package-name_1.5_all.deb',
+    'package-name_2_all.deb']
+
 Why another natsort module?!
 ----------------------------
 
-There was already a natsort_ package available on PyPI before I uploaded the
-first release of my naturalsort_ package, so why did I upload another package
-with a very similar name? Because the two packages implement different forms of
-natural order sorting!
+The natsort_ package on PyPI is more advanced and configurable than my
+naturalsort_ package, so depending on your use case you may prefer to use that
+package instead. Here are the differences:
 
-My main use case for natural order sorting has always been for sorting
-filenames and pathnames, specifically those containing software version
-numbers. I wrote my naturalsort_ module years ago because I couldn't find any
-for Python, but never published it.
+1. My naturalsort_ package implements only a small subset of the functionality
+   of the natsort_ package, specifically the following calls result in the same
+   sorting order:
 
-At some point I got sick of manually copying versions of my natural order
-sorting module back and forth between projects so I decided to either find an
-alternative available on PyPI or publish my own module. That's when I found the
-natsort_ package and started using it in several projects.
+   naturalsort package:
+     ``natsort.natsort(['1-1', '1-2'])``
 
-At some point I got bitten in the ass because I didn't properly test the
-natsort_ package for my use case. Here's a simple scenario which works as I
-expect it to::
+   natsort package:
+     ``natsort.natsorted(['1-1', '1-2'], number_type=None)``
 
-   > from natsort import natsorted
-   > natsorted(['1.8.1-r26', '1.8.1-r30', '2.0-r2', '2.0-r7', '2.0-r11'])
-   ['1.8.1-r26', '1.8.1-r30', '2.0-r2', '2.0-r7', '2.0-r11']
+   This example shows the different goals of the two packages: The naturalsort_
+   package is intended to sort version numbers while the natsort_ package by
+   default interprets dashes as a negative sign and requires the keyword
+   argument ``number_type=None`` to disable this behavior.
 
-However as I said my actual use case was for sorting filenames with version
-numbers embedded in them, for example::
-
-   > from natsort import natsorted
-   > versions = ['1.8.1-r26', '1.8.1-r30', '2.0-r2', '2.0-r7', '2.0-r11']
-   > natsorted(['my-package-%s' % v for v in versions])
-   ['my-package-2.0-r2',
-    'my-package-2.0-r7',
-    'my-package-2.0-r11',
-    'my-package-1.8.1-r26',
-    'my-package-1.8.1-r30']
-
-This result really surprised me when I saw it for the first time, although it
-is the intended result of the natsort_ package: The hyphen before the version
-number is interpreted as a negative sign, which explains why 2.0 now comes
-before 1.8.1.
-
-So there's a long answer to a simple question: *the two packages do different
-things*. Use the naturalsort_ package if you need to reliably sort version
-numbers regardless of separators and use the natsort_ package if you need to
-sort strings containing more complex numbers like floating point numbers with
-negative signs and exponentials.
+2. The naturalsort_ package works on Python 2.4 and 2.5 while the natsort_
+   package requires at least Python 2.6.
 
 Contact
 -------
 
-The latest version of ``naturalsort`` is available on PyPI_ and GitHub_. For
+The latest version of naturalsort_ is available on PyPI_ and GitHub_. For
 bug reports please create an issue on GitHub_. If you have questions,
 suggestions, etc. feel free to send me an e-mail at `peter@peterodding.com`_.
 

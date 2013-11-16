@@ -1,8 +1,8 @@
-# Simple natural order sorting API for Python that just works.
+# Simple natural order sorting API for Python.
 #
-# Author: Peter Odding <peter.odding@paylogic.eu>
+# Author: Peter Odding <peter@peterodding.com>
 # Last Change: November 16, 2013
-# URL: https://wiki.paylogic.eu/ItTools
+# URL: https://github.com/xolox/python-naturalsort
 
 # Standard library modules.
 import re
