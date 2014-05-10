@@ -1,6 +1,9 @@
 Simple natural order sorting API for Python
 ===========================================
 
+.. image:: https://travis-ci.org/xolox/python-naturalsort.svg?branch=master
+   :target: https://travis-ci.org/xolox/python-naturalsort
+
 The ``natsort.natsort()`` function in the ``naturalsort`` package is a very
 simple alternative to Python's ``sorted()`` function that implements `natural
 order sorting`_ in Python. The package is available on PyPI_, so getting
