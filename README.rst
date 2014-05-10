@@ -106,7 +106,7 @@ License
 
 This software is licensed under the `MIT license`_.
 
-© 2013 Peter Odding.
+© 2014 Peter Odding.
 
 .. External references:
 .. _ASCII: http://en.wikipedia.org/wiki/ASCII
