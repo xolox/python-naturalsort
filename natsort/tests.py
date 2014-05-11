@@ -1,7 +1,7 @@
 # Tests for natural order sorting module.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: November 16, 2013
+# Last Change: May 11, 2014
 # URL: https://github.com/xolox/python-naturalsort
 
 # Standard library modules.

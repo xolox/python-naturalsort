@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from os.path import abspath, dirname, join
-from setuptools import setup
+from setuptools import setup, find_packages
 
 # Fill in the long description (for the benefit of PyPi)
 # with the contents of README.rst (rendered by GitHub).
@@ -15,5 +15,5 @@ setup(name='naturalsort',
       url='https://github.com/xolox/python-naturalsort',
       author='Peter Odding',
       author_email='peter@peterodding.com',
-      py_modules=['natsort', 'natsort_tests'],
-      test_suite='natsort_tests')
+      packages=find_packages(),
+      test_suite='natsort.tests')
