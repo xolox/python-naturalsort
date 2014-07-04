@@ -39,6 +39,11 @@ characters) compared to `natural order sorting`_::
    > # This is natural order sorting (what we DO want).
    > natsort(['1', '5', '10', '50'])
    ['1', '5', '10', '50']
+   >
+   > # natsort() accepts a optional ``reverse`` argument for consistency with
+   > the built-in sorted() function.
+   > natsort(['1', '5', '10', '50'], reverse=True)
+   ['50', '10', '5', '1']
 
 Custom comparison keys
 ^^^^^^^^^^^^^^^^^^^^^^

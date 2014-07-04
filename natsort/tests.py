@@ -20,6 +20,9 @@ class NaturalSortTestCase(unittest.TestCase):
       # This is version sorting (what we're after).
       assert natsort(['1', '5', '10', '50']) == ['1', '5', '10', '50']
 
+      # This is version sorting reversed.
+      assert natsort(['1', '5', '10', '50'], reverse=True) == ['50', '10', '5', '1']
+
       # This covers a previously fixed bug. I've purposefully shuffled the
       # order on the left side to avoid false positives caused by stable
       # sorting.
