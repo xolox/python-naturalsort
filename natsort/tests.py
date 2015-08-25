@@ -10,6 +10,7 @@ import unittest
 # The module we're testing.
 from natsort import natsort
 
+
 class NaturalSortTestCase(unittest.TestCase):
 
     def runTest(self):
