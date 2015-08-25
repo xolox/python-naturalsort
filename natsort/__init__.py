@@ -9,6 +9,9 @@
 # Standard library modules.
 import re
 
+# Semi-standard module versioning.
+__version__ = '1.3'
+
 # Regular expression to match a consecutive run of digits.
 integer_pattern = re.compile('([0-9]+)')
 
