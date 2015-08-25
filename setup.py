@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
+"""Setup script for the `naturalsort` package."""
+
 from os.path import abspath, dirname, join
 from setuptools import setup, find_packages
 
-# Fill in the long description (for the benefit of PyPi)
+# Fill in the long description (for the benefit of PyPI)
 # with the contents of README.rst (rendered by GitHub).
 readme_file = join(dirname(abspath(__file__)), 'README.rst')
 readme_text = open(readme_file, 'r').read()
