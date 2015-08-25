@@ -37,3 +37,11 @@ class NaturalSortTestCase(unittest.TestCase):
         positives caused by stable sorting.
         """
         assert natsort(['1.5', '1.0']) == ['1.0', '1.5']
+
+    def test_python_3_compatibility(self):
+        """
+        Test the Python 3 incompatibility reported in `issue 2`_.
+
+        .. _issue 2: https://github.com/xolox/python-naturalsort/issues/2
+        """
+        assert natsort(['1', 'a']) == ['1', 'a']
