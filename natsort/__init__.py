@@ -9,7 +9,7 @@
 # Standard library modules.
 import re
 
-__version__ = '1.4'
+__version__ = '1.5'
 """Semi-standard module versioning."""
 
 integer_pattern = re.compile('([0-9]+)')
@@ -30,8 +30,7 @@ def natsort(l, key=None, reverse=False):
     :param reverse: Whether to reverse the resulting sorted list.
     :returns: A sorted list of strings.
     """
-    return sorted(l, key=lambda v: NaturalOrderKey(key and key(v) or v),
-                  reverse=reverse)
+    return sorted(l, key=lambda v: NaturalOrderKey(key and key(v) or v), reverse=reverse)
 
 
 def natsort_key(s):
@@ -99,14 +98,18 @@ class NaturalOrderKey(object):
         """Less than comparison for natural order sorting keys."""
         if isinstance(other, self.__class__):
             for i, j in zip(self.key, other.key):
-                if isinstance(i, integer_type) and isinstance(j, integer_type):
-                    # Comparisons between two integers are safe.
+                if i != j:
+                    if not isinstance(i, integer_type) or not isinstance(j, integer_type):
+                        # Comparisons between two integers are safe but
+                        # otherwise we fall back to a string comparison
+                        # to avoid type errors raised by Python 3.
+                        i = str(i)
+                        j = str(j)
                     if i < j:
                         return True
-                else:
-                    # Otherwise we fall back to a string comparison.
-                    if str(i) < str(j):
-                        return True
+                    if i > j:
+                        return False
+            return False
         else:
             return NotImplemented
 
