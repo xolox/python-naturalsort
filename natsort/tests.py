@@ -7,6 +7,7 @@
 """Tests for the natural order sorting package."""
 
 # Standard library modules.
+import random
 import unittest
 
 # The module we're testing.
@@ -18,7 +19,7 @@ class NaturalSortTestCase(unittest.TestCase):
     """Container for the `naturalsort` tests."""
 
     def test_plain_old_sorting(self):
-        """Test plain old sorting (what we don't want)."""
+        """Test plain old sorting (what we don't want :-)."""
         assert sorted(['1', '5', '10', '50']) == ['1', '10', '5', '50']
 
     def test_version_sorting(self):
@@ -55,3 +56,15 @@ class NaturalSortTestCase(unittest.TestCase):
         sorted_versions = ['1532-44349', '1534-44658', '1536-44582', '1536-44935', '1538-44874', '1538-44920']
         random_versions = ['1534-44658', '1536-44935', '1532-44349', '1538-44920', '1536-44582', '1538-44874']
         assert sorted_versions == natsort(random_versions)
+
+    def test_input_order_irrelevant(self):
+        """
+        Test that the order of input does not adversely affect the order of
+        output. Works by shuffling the input and checking that all 10.000
+        iterations result in the same output.
+        """
+        sorted_strings = ['1532-44349', '1534-44658', '1536-44582', '1536-44935', '1538-44874', '1538-44920']
+        mutable_copy = list(sorted_strings)
+        for i in range(10000):
+            random.shuffle(mutable_copy)
+            assert natsort(mutable_copy) == sorted_strings
