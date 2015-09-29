@@ -1,0 +1,3 @@
+[run]
+source = natsort
+omit = natsort/tests.py
