@@ -49,9 +49,10 @@ class NaturalSortTestCase(unittest.TestCase):
 
     def test_more_complex_versions(self):
         """
-        Test the implementation of the ``NaturalOrderKey`` class using some
-        more complex version strings that were sorted incorrectly by the
-        initial (way too naive) implementation in 1.4.
+        Test the implementation of the ``NaturalOrderKey`` class.
+
+        This test uses some more complex version strings that were sorted
+        incorrectly by the initial (way too naive) implementation in 1.4.
         """
         sorted_versions = ['1532-44349', '1534-44658', '1536-44582', '1536-44935', '1538-44874', '1538-44920']
         random_versions = ['1534-44658', '1536-44935', '1532-44349', '1538-44920', '1536-44582', '1538-44874']
@@ -59,9 +60,10 @@ class NaturalSortTestCase(unittest.TestCase):
 
     def test_input_order_irrelevant(self):
         """
-        Test that the order of input does not adversely affect the order of
-        output. Works by shuffling the input and checking that all 10.000
-        iterations result in the same output.
+        Test that order of input does not adversely affect order of output.
+
+        Works by shuffling the input and checking that all 10.000 iterations
+        result in the same output.
         """
         sorted_strings = ['1532-44349', '1534-44658', '1536-44582', '1536-44935', '1538-44874', '1538-44920']
         mutable_copy = list(sorted_strings)
