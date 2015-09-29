@@ -1,7 +1,7 @@
 # Simple natural order sorting API for Python.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: August 30, 2015
+# Last Change: September 29, 2015
 # URL: https://github.com/xolox/python-naturalsort
 
 """Simple natural order sorting API for Python."""
@@ -119,18 +119,7 @@ class NaturalOrderKey(object):
 
     def __gt__(self, other):
         """Greater than comparison for natural order sorting keys."""
-        if isinstance(other, self.__class__):
-            for i, j in zip(self.key, other.key):
-                if isinstance(i, integer_type) and isinstance(j, integer_type):
-                    # Comparisons between two integers are safe.
-                    if i > j:
-                        return True
-                else:
-                    # Otherwise we fall back to a string comparison.
-                    if str(i) > str(j):
-                        return True
-        else:
-            return NotImplemented
+        return not (self <= other)
 
     def __ge__(self, other):
         """Greater than or equal comparison for natural order sorting keys."""
