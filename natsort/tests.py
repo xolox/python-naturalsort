@@ -1,7 +1,7 @@
 # Tests for the natural order sorting package.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: August 25, 2015
+# Last Change: September 29, 2015
 # URL: https://github.com/xolox/python-naturalsort
 
 """Tests for the natural order sorting package."""
@@ -45,3 +45,13 @@ class NaturalSortTestCase(unittest.TestCase):
         .. _issue 2: https://github.com/xolox/python-naturalsort/issues/2
         """
         assert natsort(['1', 'a']) == ['1', 'a']
+
+    def test_more_complex_versions(self):
+        """
+        Test the implementation of the ``NaturalOrderKey`` class using some
+        more complex version strings that were sorted incorrectly by the
+        initial (way too naive) implementation in 1.4.
+        """
+        sorted_versions = ['1532-44349', '1534-44658', '1536-44582', '1536-44935', '1538-44874', '1538-44920']
+        random_versions = ['1534-44658', '1536-44935', '1532-44349', '1538-44920', '1536-44582', '1538-44874']
+        assert sorted_versions == natsort(random_versions)
