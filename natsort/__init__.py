@@ -9,7 +9,7 @@
 # Standard library modules.
 import re
 
-__version__ = '1.5'
+__version__ = '1.5.1'
 """Semi-standard module versioning."""
 
 integer_pattern = re.compile('([0-9]+)')
@@ -79,6 +79,7 @@ class NaturalOrderKey(object):
                       methods implemented by this class.
         """
         self.key = natsort_key(value)
+        self.length = len(self.key)
 
     def __eq__(self, other):
         """Equality comparison for natural order sorting keys."""
@@ -97,17 +98,36 @@ class NaturalOrderKey(object):
     def __lt__(self, other):
         """Less than comparison for natural order sorting keys."""
         if self.is_compatible(other):
-            for i, j in zip(self.key, other.key):
-                if i != j:
-                    if not isinstance(i, integer_type) or not isinstance(j, integer_type):
+            for i in range(max(self.length, other.length)):
+                self_item = self.key[i] if self.length > i else None
+                other_item = other.key[i] if other.length > i else None
+                # If the natural order keys are not of equal length one of the
+                # items may be unavailable (None) so we have to compensate:
+                #
+                #  - If the available item is a number then the unavailable
+                #    item is treated as the number zero. This implements zero
+                #    padding semantics which ensures that e.g. 0.15 sorts
+                #    before 0.15.1.
+                #
+                # - If the available item is not a number then the two items
+                #   are treated as being equal, otherwise the second dot in
+                #   '0.15.1' (to continue the example from above) would sort
+                #   before the zero padding in the tokenized version of '0.15'
+                #   which would then be [0, '.', 15, 0, 0].
+                if self_item is None:
+                    self_item = 0 if isinstance(other_item, integer_type) else other_item
+                if other_item is None:
+                    other_item = 0 if isinstance(self_item, integer_type) else self_item
+                if self_item != other_item:
+                    if not isinstance(self_item, integer_type) or not isinstance(other_item, integer_type):
                         # Comparisons between two integers are safe but
                         # otherwise we fall back to a string comparison
                         # to avoid type errors raised by Python 3.
-                        i = str(i)
-                        j = str(j)
-                    if i < j:
+                        self_item = str(self_item)
+                        other_item = str(other_item)
+                    if self_item < other_item:
                         return True
-                    if i > j:
+                    if self_item > other_item:
                         return False
             return False
         else:
