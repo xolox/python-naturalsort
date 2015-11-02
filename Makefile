@@ -35,9 +35,9 @@ install:
 	test -d "$(VIRTUAL_ENV)" || mkdir -p "$(VIRTUAL_ENV)"
 	test -x "$(VIRTUAL_ENV)/bin/python" || virtualenv "$(VIRTUAL_ENV)"
 	test -x "$(VIRTUAL_ENV)/bin/pip" || ($(ACTIVATE) && easy_install pip)
-	test -x "$(VIRTUAL_ENV)/bin/pip-accel" || ($(ACTIVATE) && pip install pip-accel)
+	test -x "$(VIRTUAL_ENV)/bin/pip-accel" || ($(ACTIVATE) && pip install --quiet pip-accel)
 	$(ACTIVATE) && pip uninstall --yes naturalsort &>/dev/null || true
-	$(ACTIVATE) && pip install --editable .
+	$(ACTIVATE) && pip install --quiet --editable .
 
 reset:
 	rm -Rf "$(VIRTUAL_ENV)"
@@ -47,17 +47,17 @@ clean:
 	rm -Rf build dist docs/build htmlcov
 
 test: install
-	test -x "$(VIRTUAL_ENV)/bin/tox" || ($(ACTIVATE) && pip-accel install tox)
+	test -x "$(VIRTUAL_ENV)/bin/tox" || ($(ACTIVATE) && pip-accel install --quiet tox)
 	$(ACTIVATE) && tox
 
 coverage: install
-	$(ACTIVATE) && pip-accel install coverage
+	$(ACTIVATE) && pip-accel install --quiet coverage
 	$(ACTIVATE) && coverage run setup.py test
 	$(ACTIVATE) && coverage report
 	$(ACTIVATE) && coverage html
 
 check: install
-	test -x "$(VIRTUAL_ENV)/bin/flake8" || ($(ACTIVATE) && pip-accel install flake8-pep257)
+	test -x "$(VIRTUAL_ENV)/bin/flake8" || ($(ACTIVATE) && pip-accel install --quiet flake8-pep257)
 	$(ACTIVATE) && flake8
 
 publish:
