@@ -1,7 +1,7 @@
 # Simple natural order sorting API for Python.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: September 29, 2015
+# Last Change: November 2, 2015
 # URL: https://github.com/xolox/python-naturalsort
 
 """Simple natural order sorting API for Python."""
@@ -82,21 +82,21 @@ class NaturalOrderKey(object):
 
     def __eq__(self, other):
         """Equality comparison for natural order sorting keys."""
-        if isinstance(other, self.__class__):
+        if self.is_compatible(other):
             return self.key == other.key
         else:
             return NotImplemented
 
     def __ne__(self, other):
         """Non equality comparison for natural order sorting keys."""
-        if isinstance(other, self.__class__):
+        if self.is_compatible(other):
             return self.key != other.key
         else:
             return NotImplemented
 
     def __lt__(self, other):
         """Less than comparison for natural order sorting keys."""
-        if isinstance(other, self.__class__):
+        if self.is_compatible(other):
             for i, j in zip(self.key, other.key):
                 if i != j:
                     if not isinstance(i, integer_type) or not isinstance(j, integer_type):
@@ -115,18 +115,31 @@ class NaturalOrderKey(object):
 
     def __le__(self, other):
         """Less than or equal comparison for natural order sorting keys."""
-        if isinstance(other, self.__class__):
+        if self.is_compatible(other):
             return self < other or self == other
         else:
             return NotImplemented
 
     def __gt__(self, other):
         """Greater than comparison for natural order sorting keys."""
-        return not (self <= other)
+        if self.is_compatible(other):
+            return not (self <= other)
+        else:
+            return NotImplemented
 
     def __ge__(self, other):
         """Greater than or equal comparison for natural order sorting keys."""
-        if isinstance(other, self.__class__):
+        if self.is_compatible(other):
             return self > other or self == other
         else:
             return NotImplemented
+
+    def is_compatible(self, obj):
+        """
+        Check if the given object has a compatible type.
+
+        :param obj: The object to check.
+        :returns: :data:`True` if the given object is an instance of
+                  :class:`NaturalOrderKey`, :data:`False` otherwise.
+        """
+        return isinstance(obj, self.__class__)
