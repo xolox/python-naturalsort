@@ -1,7 +1,7 @@
 # Tests for the natural order sorting package.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: September 29, 2015
+# Last Change: November 2, 2015
 # URL: https://github.com/xolox/python-naturalsort
 
 """Tests for the natural order sorting package."""
@@ -11,7 +11,7 @@ import random
 import unittest
 
 # The module we're testing.
-from natsort import natsort
+from natsort import NaturalOrderKey, natsort
 
 
 class NaturalSortTestCase(unittest.TestCase):
@@ -29,6 +29,10 @@ class NaturalSortTestCase(unittest.TestCase):
     def test_reversed_version_sorting(self):
         """Test reversed version sorting."""
         assert natsort(['1', '5', '10', '50'], reverse=True) == ['50', '10', '5', '1']
+
+    def test_zero_padding(self):
+        """Test that zero padding semantics are respected."""
+        assert natsort(['1.5.1', '1.5']) == ['1.5', '1.5.1']
 
     def test_dotted_sorting(self):
         """
@@ -70,3 +74,49 @@ class NaturalSortTestCase(unittest.TestCase):
         for i in range(10000):
             random.shuffle(mutable_copy)
             assert natsort(mutable_copy) == sorted_strings
+
+    def test_eq(self):
+        """Test :func:`.NaturalOrderKey.__eq__()`."""
+        # Equality comparison between objects of same type.
+        assert NaturalOrderKey('1.0') == NaturalOrderKey('1.0')
+        # Equality comparison between objects of different types.
+        assert NaturalOrderKey('1.0').__eq__(object) is NotImplemented
+
+    def test_ne(self):
+        """Test :func:`.NaturalOrderKey.__ne__()`."""
+        # Non-equality comparison between objects of same type.
+        assert NaturalOrderKey('1.0') != NaturalOrderKey('1.1')
+        # Non-equality comparison between objects of different types.
+        assert NaturalOrderKey('1.0').__ne__(object()) is NotImplemented
+
+    def test_lt(self):
+        """Test :func:`.NaturalOrderKey.__lt__()`."""
+        # Less than comparison between objects of same type.
+        assert NaturalOrderKey('1') < NaturalOrderKey('1.1')
+        # Less than comparison between objects of different types.
+        assert NaturalOrderKey('1').__lt__(object()) is NotImplemented
+
+    def test_le(self):
+        """Test :func:`.NaturalOrderKey.__le__()`."""
+        # Less than or equal comparison between objects of same type.
+        assert NaturalOrderKey('1') <= NaturalOrderKey('1.1')
+        assert NaturalOrderKey('1') <= NaturalOrderKey('1')
+        assert not (NaturalOrderKey('1.1') <= NaturalOrderKey('1'))
+        # Less than or equal comparison between objects of different types.
+        assert NaturalOrderKey('1').__le__(object()) is NotImplemented
+
+    def test_gt(self):
+        """Test :func:`.NaturalOrderKey.__gt__()`."""
+        # Greater than comparison between objects of same type.
+        assert NaturalOrderKey('1.1') > NaturalOrderKey('1')
+        # Greater than comparison between objects of different types.
+        assert NaturalOrderKey('1').__gt__(object()) is NotImplemented
+
+    def test_ge(self):
+        """Test :func:`.NaturalOrderKey.__ge__()`."""
+        # Greater than or equal comparison between objects of same type.
+        assert NaturalOrderKey('1.1') >= NaturalOrderKey('1')
+        assert NaturalOrderKey('1') >= NaturalOrderKey('1')
+        assert not (NaturalOrderKey('1') >= NaturalOrderKey('1.1'))
+        # Greater than or equal comparison between objects of different types.
+        assert NaturalOrderKey('1').__ge__(object()) is NotImplemented
