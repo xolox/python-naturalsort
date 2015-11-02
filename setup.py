@@ -3,7 +3,7 @@
 """Setup script for the `naturalsort` package."""
 
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: August 25, 2015
+# Last Change: November 2, 2015
 # URL: https://github.com/xolox/python-naturalsort
 
 # Standard library modules.
@@ -27,8 +27,7 @@ from natsort import __version__ as version_string
 # Fill in the long description (for the benefit of PyPI)
 # with the contents of README.rst (rendered by GitHub).
 readme_file = os.path.join(source_directory, 'README.rst')
-with codecs.open(readme_file, 'r', 'utf-8') as handle:
-    readme_text = handle.read()
+readme_text = codecs.open(readme_file, 'r', 'utf-8').read()
 
 setup(
     name='naturalsort',

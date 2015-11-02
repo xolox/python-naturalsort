@@ -47,8 +47,9 @@ clean:
 	rm -Rf build dist docs/build htmlcov
 
 test: install
-	test -x "$(VIRTUAL_ENV)/bin/tox" || ($(ACTIVATE) && pip-accel install --quiet tox)
-	$(ACTIVATE) && tox
+	test -x "$(VIRTUAL_ENV)/bin/detox" || ($(ACTIVATE) && pip-accel install --quiet detox)
+	$(ACTIVATE) && detox
+	./test.sh
 
 coverage: install
 	$(ACTIVATE) && pip-accel install --quiet coverage

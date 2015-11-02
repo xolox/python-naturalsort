@@ -120,3 +120,7 @@ class NaturalSortTestCase(unittest.TestCase):
         assert not (NaturalOrderKey('1') >= NaturalOrderKey('1.1'))
         # Greater than or equal comparison between objects of different types.
         assert NaturalOrderKey('1').__ge__(object()) is NotImplemented
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -99,8 +99,14 @@ class NaturalOrderKey(object):
         """Less than comparison for natural order sorting keys."""
         if self.is_compatible(other):
             for i in range(max(self.length, other.length)):
-                self_item = self.key[i] if self.length > i else None
-                other_item = other.key[i] if other.length > i else None
+                if self.length > i:
+                    self_item = self.key[i]
+                else:
+                    self_item = None
+                if other.length > i:
+                    other_item = other.key[i]
+                else:
+                    other_item = None
                 # If the natural order keys are not of equal length one of the
                 # items may be unavailable (None) so we have to compensate:
                 #
@@ -115,9 +121,15 @@ class NaturalOrderKey(object):
                 #   before the zero padding in the tokenized version of '0.15'
                 #   which would then be [0, '.', 15, 0, 0].
                 if self_item is None:
-                    self_item = 0 if isinstance(other_item, integer_type) else other_item
+                    if isinstance(other_item, integer_type):
+                        self_item = 0
+                    else:
+                        self_item = other_item
                 if other_item is None:
-                    other_item = 0 if isinstance(self_item, integer_type) else self_item
+                    if isinstance(self_item, integer_type):
+                        other_item = 0
+                    else:
+                        other_item = self_item
                 if self_item != other_item:
                     if not isinstance(self_item, integer_type) or not isinstance(other_item, integer_type):
                         # Comparisons between two integers are safe but
