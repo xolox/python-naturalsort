@@ -1,7 +1,7 @@
 # Makefile for the 'naturalsort' module.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: August 25, 2015
+# Last Change: November 2, 2015
 # URL: https://github.com/xolox/python-naturalsort
 
 # The following defaults are based on my preferences, but possible for others
@@ -55,9 +55,6 @@ coverage: install
 	$(ACTIVATE) && coverage run setup.py test
 	$(ACTIVATE) && coverage report
 	$(ACTIVATE) && coverage html
-	if [ "`whoami`" != root ] && which xdg-open &>/dev/null; then \
-		xdg-open htmlcov/index.html &>/dev/null; \
-	fi
 
 check: install
 	test -x "$(VIRTUAL_ENV)/bin/flake8" || ($(ACTIVATE) && pip-accel install flake8-pep257)
